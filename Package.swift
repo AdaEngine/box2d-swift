@@ -6,27 +6,13 @@ import PackageDescription
 let package = Package(
     name: "box2d",
     products: [
-        .executable(
-            name: "box2d-test",
-            targets: ["box2d-test"]
-        ),
         .library(
             name: "box2d",
-            targets: ["box2d"]),
+            targets: ["box2d"]
+        )
     ],
     targets: [
-        .executableTarget(
-            name: "box2d-test",
-            dependencies: ["box2d"]
-        ),
-        .target(
-            name: "box2d",
-            sources: ["src"],
-            cxxSettings: [
-                .headerSearchPath("include/box2d"),
-                .headerSearchPath("src/dynamics")
-            ]
-        )
+        .target(name: "box2d")
     ],
     cxxLanguageStandard: .cxx11
 )
