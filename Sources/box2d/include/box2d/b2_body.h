@@ -125,7 +125,7 @@ struct B2_API b2BodyDef
 };
 
 /// A rigid body. These are created via b2World::CreateBody.
-class B2_API b2Body
+class B2_API AS_SWIFT_CLASS b2Body
 {
 public:
 	/// Creates a fixture and attach it to this body. Use this function if you need

@@ -113,7 +113,7 @@ struct B2_API b2FixtureProxy
 /// such as friction, collision filters, etc.
 /// Fixtures are created via b2Body::CreateFixture.
 /// @warning you cannot reuse fixtures.
-class B2_API b2Fixture
+class B2_API AS_SWIFT_CLASS b2Fixture
 {
 public:
 	/// Get the type of the child shape. You can use this to down cast to the concrete shape.

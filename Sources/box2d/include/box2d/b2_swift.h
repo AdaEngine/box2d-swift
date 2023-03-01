@@ -25,131 +25,22 @@
 #include "b2_joint.h"
 #include "b2_world.h"
 
-// b2Body
-
-const b2Vec2& b2Body_GetPosition(const b2Body *body) {
-    return body->GetPosition();
-}
-
-float b2Body_GetAngle(const b2Body *body) {
-    return body->GetAngle();
-}
-
-b2Fixture* b2Body_GetFixtureList(b2Body *body) {
-    return body->GetFixtureList();
-}
-
-b2Fixture* b2Body_CreateFixture(b2Body *body, const b2FixtureDef* def) {
-    return body->CreateFixture(def);
-}
-
-void b2Body_DestroyFixture(b2Body *body, b2Fixture* fixture) {
-    body->DestroyFixture(fixture);
-}
-
-void b2Body_SetTransform(b2Body *body, const b2Vec2& position, float angle) {
-    body->SetTransform(position, angle);
-}
-
-void b2Body_SetLinearVelocity(b2Body *body, const b2Vec2& v) {
-    body->SetLinearVelocity(v);
-}
-
-const b2Vec2& b2Body_GetWorldCenter(const b2Body *body) {
-    return body->GetWorldCenter();
-}
-
-const b2Vec2& b2Body_GetLocalCenter(const b2Body *body) {
-    return body->GetLocalCenter();
-}
-
-/// Apply a force at a world point. If the force is not
-/// applied at the center of mass, it will generate a torque and
-/// affect the angular velocity. This wakes up the body.
-/// @param force the world force vector, usually in Newtons (N).
-/// @param point the world position of the point of application.
-/// @param wake also wake up the body
-void b2Body_ApplyForce(b2Body *body, const b2Vec2& force, const b2Vec2& point, bool wake) {
-    body->ApplyForce(force, point, wake);
-}
-
-/// Apply a force to the center of mass. This wakes up the body.
-/// @param force the world force vector, usually in Newtons (N).
-/// @param wake also wake up the body
-void b2Body_ApplyForceToCenter(b2Body *body, const b2Vec2& force, bool wake) {
-    body->ApplyForceToCenter(force, wake);
-}
-
-/// Apply a torque. This affects the angular velocity
-/// without affecting the linear velocity of the center of mass.
-/// @param torque about the z-axis (out of the screen), usually in N-m.
-/// @param wake also wake up the body
-void b2Body_ApplyTorque(b2Body *body, float torque, bool wake) {
-    body->ApplyTorque(torque, wake);
-}
-
-/// Apply an impulse at a point. This immediately modifies the velocity.
-/// It also modifies the angular velocity if the point of application
-/// is not at the center of mass. This wakes up the body.
-/// @param impulse the world impulse vector, usually in N-seconds or kg-m/s.
-/// @param point the world position of the point of application.
-/// @param wake also wake up the body
-void b2Body_ApplyLinearImpulse(b2Body *body, const b2Vec2& impulse, const b2Vec2& point, bool wake) {
-    body->ApplyLinearImpulse(impulse, point, wake);
-}
-
-/// Apply an impulse to the center of mass. This immediately modifies the velocity.
-/// @param impulse the world impulse vector, usually in N-seconds or kg-m/s.
-/// @param wake also wake up the body
-void b2Body_ApplyLinearImpulseToCenter(b2Body *body, const b2Vec2& impulse, bool wake) {
-    body->ApplyLinearImpulseToCenter(impulse, wake);
-}
-
-/// Apply an angular impulse.
-/// @param impulse the angular impulse in units of kg*m*m/s
-/// @param wake also wake up the body
-void b2Body_ApplyAngularImpulse(b2Body *body, float impulse, bool wake) {
-    body->ApplyAngularImpulse(impulse, wake);
-}
-
-/// Get the world linear velocity of a world point attached to this body.
-/// @param worldPoint a point in world coordinates.
-/// @return the world velocity of a point.
-b2Vec2 b2Body_GetLinearVelocityFromWorldPoint(const b2Body *body, const b2Vec2& worldPoint) {
-    return body->GetLinearVelocityFromWorldPoint(worldPoint);
-}
-
-/// Get the world velocity of a local point.
-/// @param localPoint a point in local coordinates.
-/// @return the world velocity of a point.
-b2Vec2 b2Body_GetLinearVelocityFromLocalPoint(const b2Body *body, const b2Vec2& localPoint) {
-    return body->GetLinearVelocityFromLocalPoint(localPoint);
-}
-
-/// Get the linear velocity of the center of mass.
-/// @return the linear velocity of the center of mass.
-const b2Vec2& b2Body_GetLinearVelocity(const b2Body *body) {
-    return body->GetLinearVelocity();
-}
-
-b2BodyUserData& b2Body_GetUserData(b2Body *body) {
-    return body->GetUserData();
-}
-
-b2BodyDef* b2BodyDef_create() {
-    return new b2BodyDef();
-}
-
-// end b2Body
-
 // b2Shape
 
 b2PolygonShape* b2PolygonShape_create() {
     return new b2PolygonShape();
 }
 
+void b2Polygon_delete(b2PolygonShape *shape) {
+    delete shape;
+}
+
 b2CircleShape* b2CircleShape_create() {
     return new b2CircleShape();
+}
+
+void b2CircleShape_delete(b2CircleShape *shape) {
+    delete shape;
 }
 
 const b2Shape* b2Shape_unsafeCast(void *shape) {
@@ -237,59 +128,8 @@ b2World* b2World_create(const b2Vec2& gravity) {
     return new b2World(gravity);
 }
 
-b2Vec2 b2World_GetGravity(const b2World* world) {
-    return world->GetGravity();
-}
-
-void b2World_SetGravity(b2World* world, const b2Vec2& gravity) {
-    world->SetGravity(gravity);
-}
-
-/// Register a contact event listener. The listener is owned by you and must
-/// remain in scope.
-void b2World_SetContactListener(b2World* world, b2ContactListener* listener) {
-    world->SetContactListener(listener);
-}
-
-/// Take a time step. This performs collision detection, integration,
-/// and constraint solution.
-/// @param timeStep the amount of time to simulate, this should not vary.
-/// @param velocityIterations for the velocity constraint solver.
-/// @param positionIterations for the position constraint solver.
-void b2World_Step(
-                  b2World* world,
-                  float timeStep,
-                  int32 velocityIterations,
-                  int32 positionIterations) {
-    world->Step(timeStep, velocityIterations, positionIterations);
-}
-
-/// Create a rigid body given a definition. No reference to the definition
-/// is retained.
-/// @warning This function is locked during callbacks.
-b2Body* b2World_CreateBody(b2World* world, const b2BodyDef* def) {
-    return world->CreateBody(def);
-}
-
-/// Destroy a rigid body given a definition. No reference to the definition
-/// is retained. This function is locked during callbacks.
-/// @warning This automatically deletes all associated shapes and joints.
-/// @warning This function is locked during callbacks.
-void b2World_DestroyBody(b2World* world, b2Body* body) {
-    world->DestroyBody(body);
-}
-
-/// Create a joint to constrain bodies together. No reference to the definition
-/// is retained. This may cause the connected bodies to cease colliding.
-/// @warning This function is locked during callbacks.
-b2Joint* b2World_CreateJoint(b2World* world, const b2JointDef* def) {
-    return world->CreateJoint(def);
-}
-
-/// Destroy a joint. This may cause the connected bodies to begin colliding.
-/// @warning This function is locked during callbacks.
-void b2World_DestroyJoint(b2World* world, b2Joint* joint) {
-    world->DestroyJoint(joint);
+void b2World_delete(b2World *world) {
+    delete world;
 }
 
 // b2World end

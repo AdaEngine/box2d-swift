@@ -58,7 +58,7 @@ b2World::b2World(const b2Vec2& gravity)
 	m_stepComplete = true;
 
 	m_allowSleep = true;
-	m_gravity = gravity;
+    m_gravity = gravity;
 
 	m_newContacts = false;
 	m_locked = false;
