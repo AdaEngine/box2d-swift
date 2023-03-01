@@ -1,4 +1,4 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -12,7 +12,9 @@ let package = Package(
         )
     ],
     targets: [
-        .target(name: "box2d")
+        .target(
+            name: "box2d"
+        )
     ],
-    cxxLanguageStandard: .cxx11
+    cxxLanguageStandard: .cxx20
 )
