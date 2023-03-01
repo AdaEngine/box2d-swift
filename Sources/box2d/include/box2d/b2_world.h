@@ -43,7 +43,7 @@ class b2Joint;
 /// The world class manages all physics entities, dynamic simulation,
 /// and asynchronous queries. The world also contains efficient memory
 /// management facilities.
-class B2_API AS_SWIFT_CLASS b2World
+class AS_SWIFT_CLASS B2_API b2World
 {
 public:
 	/// Construct a world object.

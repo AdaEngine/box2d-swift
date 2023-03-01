@@ -49,19 +49,10 @@
   #define B2_API
 #endif
 
+// annotate this macro to generate class interface for swift.
 #define AS_SWIFT_CLASS \
             __attribute__((swift_attr("import_as_ref"))) \
             __attribute__((swift_attr("retain:immortal"))) \
             __attribute__((swift_attr("release:immortal")))
-
-//template <class P>
-//void retain(P* ptr) {
-//    ptr->retain();
-//}
-//
-//template <class P>
-//void release(P* ptr) {
-//    ptr->release();
-//}
 
 #endif

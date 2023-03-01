@@ -27,7 +27,7 @@
 #include "b2_shape.h"
 
 /// A solid circle shape
-class B2_API AS_SWIFT_CLASS b2CircleShape : public b2Shape
+class AS_SWIFT_CLASS B2_API b2CircleShape : public b2Shape
 {
 public:
 	b2CircleShape();

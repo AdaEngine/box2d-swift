@@ -45,7 +45,7 @@ struct B2_API b2MassData
 /// A shape is used for collision detection. You can create a shape however you like.
 /// Shapes used for simulation in b2World are created automatically when a b2Fixture
 /// is created. Shapes may encapsulate a one or more child shapes.
-class B2_API AS_SWIFT_CLASS b2Shape
+class AS_SWIFT_CLASS B2_API b2Shape
 {
 public:
 

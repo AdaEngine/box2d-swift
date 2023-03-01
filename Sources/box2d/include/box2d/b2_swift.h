@@ -90,7 +90,8 @@ public:
     /// get an EndContact callback. However, you may get a BeginContact callback
     /// the next step.
     virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override {
-        m_PreSolve(m_UserData, contact, oldManifold);
+        if (m_PreSolve)
+            m_PreSolve(m_UserData, contact, oldManifold);
     }
     
     /// This lets you inspect a contact after the solver is finished. This is useful
@@ -100,7 +101,8 @@ public:
     /// in a separate data structure.
     /// Note: this is only called for contacts that are touching, solid, and awake.
     virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override {
-        m_PostSolve(m_UserData, contact, impulse);
+        if (m_PostSolve)
+            m_PostSolve(m_UserData, contact, impulse);
     }
     
     void(*m_BeginContact)(const void *userData, b2Contact* contact);
