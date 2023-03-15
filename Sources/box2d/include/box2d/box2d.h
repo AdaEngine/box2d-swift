@@ -55,6 +55,4 @@
 #include "b2_weld_joint.h"
 #include "b2_wheel_joint.h"
 
-#include "b2_swift.h"
-
 #endif
