@@ -1,5 +1,5 @@
 module box2d {
-    header "include/box2d.h"
+    header "include/box2d/box2d.h"
     
     export *
 }
