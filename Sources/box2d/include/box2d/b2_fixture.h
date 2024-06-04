@@ -25,7 +25,6 @@
 
 #include <swift/bridging>
 
-#include "b2_swift.h"
 #include "b2_api.h"
 #include "b2_body.h"
 #include "b2_collision.h"
