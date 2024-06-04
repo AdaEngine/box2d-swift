@@ -23,6 +23,9 @@
 #ifndef B2_FIXTURE_H
 #define B2_FIXTURE_H
 
+#include <swift/bridging>
+
+#include "b2_swift.h"
 #include "b2_api.h"
 #include "b2_body.h"
 #include "b2_collision.h"
@@ -113,7 +116,7 @@ struct B2_API b2FixtureProxy
 /// such as friction, collision filters, etc.
 /// Fixtures are created via b2Body::CreateFixture.
 /// @warning you cannot reuse fixtures.
-class AS_SWIFT_CLASS B2_API b2Fixture
+class B2_API b2Fixture
 {
 public:
 	/// Get the type of the child shape. You can use this to down cast to the concrete shape.
@@ -249,7 +252,7 @@ protected:
 	bool m_isSensor;
 
 	b2FixtureUserData m_userData;
-};
+} SWIFT_UNSAFE_REFERENCE;
 
 inline b2Shape::Type b2Fixture::GetType() const
 {

@@ -23,14 +23,20 @@
 #ifndef B2_CIRCLE_SHAPE_H
 #define B2_CIRCLE_SHAPE_H
 
+#include <swift/bridging>
+
 #include "b2_api.h"
 #include "b2_shape.h"
 
 /// A solid circle shape
-class AS_SWIFT_CLASS B2_API b2CircleShape : public b2Shape
+class B2_API b2CircleShape : public b2Shape
 {
 public:
 	b2CircleShape();
+    
+    static b2CircleShape* Create() {
+        return new b2CircleShape();
+    }
 
 	/// Implement b2Shape.
 	b2Shape* Clone(b2BlockAllocator* allocator) const override;
@@ -55,7 +61,7 @@ public:
 
 	/// Position
 	b2Vec2 m_p;
-};
+} SWIFT_UNSAFE_REFERENCE;
 
 inline b2CircleShape::b2CircleShape()
 {

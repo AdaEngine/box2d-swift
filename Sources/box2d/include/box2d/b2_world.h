@@ -30,6 +30,8 @@
 #include "b2_stack_allocator.h"
 #include "b2_time_step.h"
 #include "b2_world_callbacks.h"
+#include <swift/bridging>
+#include "b2_swift.h"
 
 struct b2AABB;
 struct b2BodyDef;
@@ -43,7 +45,9 @@ class b2Joint;
 /// The world class manages all physics entities, dynamic simulation,
 /// and asynchronous queries. The world also contains efficient memory
 /// management facilities.
-class AS_SWIFT_CLASS B2_API b2World
+///
+/// This class is ARC compitable and Swift can managed this code automatically.
+class B2_API b2World: public IntrusiveRefCounted<b2World>
 {
 public:
 	/// Construct a world object.
@@ -213,7 +217,16 @@ public:
 	/// Dump the world into the log file.
 	/// @warning this should be called outside of a time step.
 	void Dump();
-
+    
+    /// Return instance of b2World. Use this method in Swift.
+    static b2World* _Nonnull CreateWorld(b2Vec2 gravity) {
+        b2World* world = new b2World(gravity);
+        return world;
+    };
+    
+    static void DeallocateWorld(b2World * _Nullable world) {
+        delete world;
+    };
 private:
 
 	friend class b2Body;
@@ -259,7 +272,7 @@ private:
 	bool m_stepComplete;
 
 	b2Profile m_profile;
-};
+} SWIFT_UNSAFE_REFERENCE;
 
 inline b2Body* b2World::GetBodyList()
 {
@@ -341,5 +354,8 @@ inline const b2Profile& b2World::GetProfile() const
 {
 	return m_profile;
 }
+
+void b2WorldRetain(b2World* _Nonnull world);
+void b2WorldRelease(b2World* _Nonnull world);
 
 #endif

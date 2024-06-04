@@ -1320,3 +1320,11 @@ void b2World::Dump()
 
 	b2CloseDump();
 }
+
+//void b2WorldRetain(b2World* _Nonnull world) {
+//    world->retain();
+//}
+//
+//void b2WorldRelease(b2World* _Nonnull world) {
+//    world->release();
+//}

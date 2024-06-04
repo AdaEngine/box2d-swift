@@ -23,6 +23,8 @@
 #ifndef B2_CONTACT_H
 #define B2_CONTACT_H
 
+#include <swift/bridging>
+
 #include "b2_api.h"
 #include "b2_collision.h"
 #include "b2_fixture.h"
@@ -85,7 +87,7 @@ struct B2_API b2ContactEdge
 /// The class manages contact between two shapes. A contact exists for each overlapping
 /// AABB in the broad-phase (except if filtered). Therefore a contact object may exist
 /// that has no contact points.
-class AS_SWIFT_CLASS B2_API b2Contact
+class B2_API b2Contact
 {
 public:
 
@@ -239,7 +241,7 @@ protected:
 	float m_restitutionThreshold;
 
 	float m_tangentSpeed;
-};
+} SWIFT_UNSAFE_REFERENCE;
 
 inline b2Manifold* b2Contact::GetManifold()
 {

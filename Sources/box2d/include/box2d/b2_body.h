@@ -23,6 +23,8 @@
 #ifndef B2_BODY_H
 #define B2_BODY_H
 
+#include <swift/bridging>
+
 #include "b2_api.h"
 #include "b2_math.h"
 #include "b2_shape.h"
@@ -125,7 +127,7 @@ struct B2_API b2BodyDef
 };
 
 /// A rigid body. These are created via b2World::CreateBody.
-class AS_SWIFT_CLASS B2_API b2Body
+class B2_API b2Body
 {
 public:
 	/// Creates a fixture and attach it to this body. Use this function if you need
@@ -466,7 +468,7 @@ private:
 	float m_sleepTime;
 
 	b2BodyUserData m_userData;
-};
+} SWIFT_UNSAFE_REFERENCE;
 
 inline b2BodyType b2Body::GetType() const
 {
@@ -881,5 +883,8 @@ inline const b2World* b2Body::GetWorld() const
 {
 	return m_world;
 }
+
+void b2BodyRelease(b2Body* _Nonnull body);
+void b2BodyRetain(b2Body* _Nonnull body);
 
 #endif

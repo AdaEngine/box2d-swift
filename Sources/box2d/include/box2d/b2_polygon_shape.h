@@ -22,6 +22,8 @@
 #ifndef B2_POLYGON_SHAPE_H
 #define B2_POLYGON_SHAPE_H
 
+#include <swift/bridging>
+
 #include "b2_api.h"
 #include "b2_shape.h"
 
@@ -29,10 +31,14 @@
 /// the left of each edge.
 /// Polygons have a maximum number of vertices equal to b2_maxPolygonVertices.
 /// In most cases you should not need many vertices for a convex polygon.
-class AS_SWIFT_CLASS B2_API b2PolygonShape : public b2Shape
+class B2_API b2PolygonShape : public b2Shape
 {
 public:
 	b2PolygonShape();
+    
+    static b2PolygonShape* Create() {
+        return new b2PolygonShape();
+    }
 
 	/// Implement b2Shape.
 	b2Shape* Clone(b2BlockAllocator* allocator) const override;
@@ -82,7 +88,7 @@ public:
 	b2Vec2 m_vertices[b2_maxPolygonVertices];
 	b2Vec2 m_normals[b2_maxPolygonVertices];
 	int32 m_count;
-};
+} SWIFT_UNSAFE_REFERENCE;
 
 inline b2PolygonShape::b2PolygonShape()
 {

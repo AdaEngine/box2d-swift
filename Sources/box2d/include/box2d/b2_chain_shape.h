@@ -26,6 +26,8 @@
 #include "b2_api.h"
 #include "b2_shape.h"
 
+#include <swift/bridging>
+
 class b2EdgeShape;
 
 /// A chain shape is a free form sequence of line segments.
@@ -88,7 +90,7 @@ public:
 	int32 m_count;
 
 	b2Vec2 m_prevVertex, m_nextVertex;
-};
+} SWIFT_UNSAFE_REFERENCE;
 
 inline b2ChainShape::b2ChainShape()
 {

@@ -45,7 +45,7 @@ struct B2_API b2MassData
 /// A shape is used for collision detection. You can create a shape however you like.
 /// Shapes used for simulation in b2World are created automatically when a b2Fixture
 /// is created. Shapes may encapsulate a one or more child shapes.
-class AS_SWIFT_CLASS B2_API b2Shape
+class B2_API b2Shape
 {
 public:
 
@@ -100,7 +100,7 @@ public:
 	/// Radius of a shape. For polygonal shapes this must be b2_polygonRadius. There is no support for
 	/// making rounded polygons.
 	float m_radius;
-};
+} SWIFT_UNSAFE_REFERENCE;
 
 inline b2Shape::Type b2Shape::GetType() const
 {

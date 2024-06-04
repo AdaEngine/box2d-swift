@@ -20,35 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef B2_API_H
-#define B2_API_H
+#ifndef B2_SWIFT_H
+#define B2_SWIFT_H
 
-#include <swift/bridging>
+#pragma once
 
-#ifdef B2_SHARED
-  #if defined _WIN32 || defined __CYGWIN__
-    #ifdef box2d_EXPORTS
-      #ifdef __GNUC__
-        #define B2_API __attribute__ ((dllexport))
-      #else
-        #define B2_API __declspec(dllexport)
-      #endif
-    #else
-      #ifdef __GNUC__
-        #define B2_API __attribute__ ((dllimport))
-      #else
-        #define B2_API __declspec(dllimport)
-      #endif
-    #endif
-  #else
-    #if __GNUC__ >= 4
-      #define B2_API __attribute__ ((visibility ("default")))
-    #else
-      #define B2_API
-    #endif
-  #endif
-#else
-  #define B2_API
-#endif
+template<class T>
+class IntrusiveRefCounted {
+public:
+    IntrusiveRefCounted() : referenceCount(1) {}
+    
+    IntrusiveRefCounted(const IntrusiveRefCounted &) = delete;
+
+    void retain() {
+        ++referenceCount;
+    }
+
+    void release() {
+        --referenceCount;
+        if (referenceCount == 0)
+            delete static_cast<T *>(this);
+    }
+private:
+    int referenceCount;
+};
 
 #endif

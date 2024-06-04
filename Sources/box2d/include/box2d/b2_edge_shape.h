@@ -25,6 +25,7 @@
 
 #include "b2_api.h"
 #include "b2_shape.h"
+#include <swift/bridging>
 
 /// A line segment (edge) shape. These can be connected in chains or loops
 /// to other edge shapes. Edges created independently are two-sided and do
@@ -70,7 +71,7 @@ public:
 
 	/// Uses m_vertex0 and m_vertex3 to create smooth collision.
 	bool m_oneSided;
-};
+} SWIFT_UNSAFE_REFERENCE;
 
 inline b2EdgeShape::b2EdgeShape()
 {

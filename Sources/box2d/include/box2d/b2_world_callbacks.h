@@ -158,4 +158,102 @@ public:
 									const b2Vec2& normal, float fraction) = 0;
 };
 
+// MARK: - SwiftContactListener2D
+
+typedef void (*contact_listener_begin_contact_func)(const void* userData, b2Contact* contact);
+typedef void (*contact_listener_end_contact_func)(const void* userData, b2Contact* contact);
+typedef void (*contact_listener_presolve_func)(const void* userData, b2Contact* contact, const b2Manifold* oldManifold);
+typedef void (*contact_listener_postsolve_func)(const void* userData, b2Contact* contact, const b2ContactImpulse* impulse);
+
+/// Helper class that inherited from b2ContactListener.
+class SwiftContactListener2D: public b2ContactListener {
+public:
+    SwiftContactListener2D(const void *userData): m_UserData(userData) {}
+    virtual ~SwiftContactListener2D() {}
+    
+    static SwiftContactListener2D& CreateListener(const void *userData) {
+        static SwiftContactListener2D listener = { userData } ;
+        return listener;
+    }
+    
+    virtual void BeginContact(b2Contact* contact) override {
+        if (m_BeginContact) {
+            m_BeginContact(m_UserData, contact);
+        }
+    }
+    
+    virtual void EndContact(b2Contact* contact) override {
+        if (m_EndContact) {
+            m_EndContact(m_UserData, contact);
+        }
+    }
+    
+    /// This is called after a contact is updated. This allows you to inspect a
+    /// contact before it goes to the solver. If you are careful, you can modify the
+    /// contact manifold (e.g. disable contact).
+    /// A copy of the old manifold is provided so that you can detect changes.
+    /// Note: this is called only for awake bodies.
+    /// Note: this is called even when the number of contact points is zero.
+    /// Note: this is not called for sensors.
+    /// Note: if you set the number of contact points to zero, you will not
+    /// get an EndContact callback. However, you may get a BeginContact callback
+    /// the next step.
+    virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override {
+        if (m_PreSolve) {
+            m_PreSolve(m_UserData, contact, oldManifold);
+        }
+    };
+    
+    /// This lets you inspect a contact after the solver is finished. This is useful
+    /// for inspecting impulses.
+    /// Note: the contact manifold does not include time of impact impulses, which can be
+    /// arbitrarily large if the sub-step is small. Hence the impulse is provided explicitly
+    /// in a separate data structure.
+    /// Note: this is only called for contacts that are touching, solid, and awake.
+    virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override {
+        if (m_PostSolve) {
+            m_PostSolve(m_UserData, contact, impulse);
+        }
+    };
+    
+    contact_listener_begin_contact_func m_BeginContact;
+    contact_listener_end_contact_func m_EndContact;
+    contact_listener_presolve_func m_PreSolve;
+    contact_listener_postsolve_func m_PostSolve;
+    
+private:
+    const void* m_UserData;
+} SWIFT_UNSAFE_REFERENCE;
+
+// MARK: - SwiftRayCastCallback
+
+typedef float (*raycast_listener_reportfixture_func)(const void* userData, b2Fixture* fixture, b2Vec2 point, b2Vec2 normal, float fraction);
+
+/// Helper class that inherited from b2RayCastCallback.
+class SwiftRayCastCallback: public b2RayCastCallback {
+public:
+    SwiftRayCastCallback(const void *userData): m_UserData(userData) {}
+    
+    static SwiftRayCastCallback& CreateListener(const void *userData) {
+        static SwiftRayCastCallback listener = { userData } ;
+        return listener;
+    }
+    
+    virtual float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction) override {
+        if (m_ReportFixture) {
+            float result = m_ReportFixture(m_UserData, fixture, { point.x, point.y }, { normal.x, normal.y }, fraction);
+            
+            return result;
+        }
+        
+        // terminate raycast if m_ReportFixture is null
+        return 0.0f;
+    }
+    
+    raycast_listener_reportfixture_func m_ReportFixture;
+    
+private:
+    const void* m_UserData;
+} SWIFT_UNSAFE_REFERENCE;
+
 #endif
