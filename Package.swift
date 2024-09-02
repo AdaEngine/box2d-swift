@@ -16,11 +16,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "box2d",
-            swiftSettings: [
-                .interoperabilityMode(.Cxx)
-            ]
+            name: "box2d"
         )
-    ],
-    cxxLanguageStandard: .cxx20
+    ]
 )
